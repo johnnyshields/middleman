@@ -10,8 +10,8 @@ require 'active_support/json'
 # Extensions namespace
 module Middleman::CoreExtensions
   class FrontMatter < ::Middleman::Extension
-    # Try to run after routing but before directory_indexes
-    self.resource_list_manipulator_priority = 90
+    # Run before i18n
+    self.resource_list_manipulator_priority = 60
 
     YAML_ERRORS = [StandardError]
 
