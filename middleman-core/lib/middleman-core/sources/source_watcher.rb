@@ -1,23 +1,19 @@
 # Watcher Library
 require 'listen'
 require 'middleman-core/contracts'
-require 'middleman-core/contracts'
-require 'backports/2.0.0/enumerable/lazy'
 
 # Monkey patch Listen silencer so `only` works on directories too
 module Listen
   class Silencer
     # TODO: switch type and path places - and verify
-    def silenced?(relative_path, type)
+    def silenced?(relative_path, _type)
       path = relative_path.to_s
 
       # if only_patterns && type == :file
       #   return true unless only_patterns.any? { |pattern| path =~ pattern }
       # end
 
-      if only_patterns
-        return !only_patterns.any? { |pattern| path =~ pattern }
-      end
+      return !only_patterns.any? { |pattern| path =~ pattern } if only_patterns
 
       ignore_patterns.any? { |pattern| path =~ pattern }
     end
@@ -125,6 +121,8 @@ module Middleman
     # @return [Middleman::SourceFile, nil]
     Contract Or[String, Pathname], Maybe[Bool] => Maybe[IsA['Middleman::SourceFile']]
     def find(path, glob=false)
+      path = path.to_s.encode!('UTF-8', 'UTF-8-MAC') if RUBY_PLATFORM =~ /darwin/
+
       p = Pathname(path)
 
       return nil if p.absolute? && !p.to_s.start_with?(@directory.to_s)

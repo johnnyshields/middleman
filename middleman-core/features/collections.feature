@@ -197,13 +197,15 @@ Feature: Collections
     Given a fixture app "collections-app"
     And a file named "config.rb" with:
       """
+      ignore "/description_template.html"
+
       live {
-        Dir["descriptions/*.txt"]
+        Dir[File.join(root, "descriptions/*.txt")]
       }.each do |description_name|
         base = File.basename(description_name, '.txt')
         proxy "#{base}.html", "/description_template.html", locals: {
           contents: File.read(description_name)
-        }, ignore: true
+        }
       end
       """
     And a file named "source/description_template.html.erb" with:

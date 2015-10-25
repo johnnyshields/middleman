@@ -48,9 +48,7 @@ module Middleman
         @app         = @store.app
         @path        = path
 
-        if source && source.is_a?(String)
-          source = Pathname(source)
-        end
+        source = Pathname(source) if source && source.is_a?(String)
 
         if source && source.is_a?(Pathname)
           @file_descriptor = ::Middleman::SourceFile.new(source.relative_path_from(@app.source_dir), source, @app.source_dir, Set.new([:source]))
@@ -196,7 +194,7 @@ module Middleman
       end
 
       def to_s
-        "#<Middleman::Sitemap::Resource path=#{@path}>"
+        "#<#{self.class} path=#{@path}>"
       end
       alias_method :inspect, :to_s # Ruby 2.0 calls inspect for NoMethodError instead of to_s
     end

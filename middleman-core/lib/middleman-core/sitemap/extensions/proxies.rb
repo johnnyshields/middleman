@@ -86,8 +86,8 @@ module Middleman
     end
 
     class Resource
-      def proxy_to(path)
-        throw "Resource#proxy_to has been removed. Use ProxyResource class instead."
+      def proxy_to(_path)
+        throw 'Resource#proxy_to has been removed. Use ProxyResource class instead.'
       end
     end
 
@@ -141,6 +141,11 @@ module Middleman
 
         target_resource.content_type
       end
+
+      def to_s
+        "#<#{self.class} path=#{@path} target=#{@target}>"
+      end
+      alias_method :inspect, :to_s
     end
   end
 end

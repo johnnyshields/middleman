@@ -16,43 +16,43 @@ Gem::Specification.new do |s|
   s.files        = `git ls-files -z`.split("\0")
   s.test_files   = `git ls-files -z -- {fixtures,features}/*`.split("\0")
   s.require_path = 'lib'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
 
   # Core
   s.add_dependency('bundler', ['~> 1.1'])
-  s.add_dependency('backports', ['~> 3.6'])
   s.add_dependency('rack', ['>= 1.4.5', '< 2.0'])
   s.add_dependency('tilt', ['~> 1.4.1'])
   s.add_dependency('erubis')
 
   # Helpers
-  s.add_dependency('activesupport', ['~> 4.2.0'])
-  s.add_dependency('padrino-helpers', ['~> 0.12.3'])
+  s.add_dependency('activesupport', ['~> 4.2'])
+  s.add_dependency('padrino-helpers', ['~> 0.13.0'])
   s.add_dependency("addressable", ["~> 2.3.5"])
 
   # Watcher
   s.add_dependency('listen', ['~> 3.0'])
 
+  # Tests
+  s.add_dependency("capybara", ["~> 2.5.0"])
+
   # i18n
   s.add_dependency('i18n', ['~> 0.7.0'])
 
   # Automatic Image Sizes
-  s.add_dependency('fastimage', ['~> 1.6.2'])
+  s.add_dependency('fastimage', ['~> 1.7.0'])
 
   # Minify CSS
-  s.add_dependency('sass', ['>= 3.3.4'])
-
-  # Work around Sass performance
-  s.add_dependency('compass-import-once', ['~> 1.0.4'])
+  s.add_dependency('sassc', ['>= 1.6.0'])
 
   # Minify JS
   s.add_dependency('uglifier', ['~> 2.6'])
   s.add_dependency('execjs', ['~> 2.0'])
 
   # Testing
-  s.add_dependency('contracts', ['~> 0.9.0'])
+  s.add_dependency('contracts', ['~> 0.12.0'])
 
   # Hash stuff
   s.add_dependency('hashie', ['~> 3.4'])
   s.add_dependency('hamster', ['~> 1.0'])
+  s.add_dependency('backports', ['~> 3.6'])
 end

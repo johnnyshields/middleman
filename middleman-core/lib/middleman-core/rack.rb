@@ -14,6 +14,12 @@ require 'middleman-core/template_renderer'
 ::Rack::Mime::MIME_TYPES['.html'] = 'text/html; charset=utf-8'
 ::Rack::Mime::MIME_TYPES['.htm'] = 'text/html; charset=utf-8'
 
+# Sourcemap format
+::Rack::Mime::MIME_TYPES['.map'] = 'application/json; charset=utf-8'
+
+# Create a MIME type for PHP files (for detection by extensions)
+::Rack::Mime::MIME_TYPES['.php'] = 'text/php'
+
 module Middleman
   class Rack
     extend Forwardable
@@ -102,7 +108,7 @@ module Middleman
 
       begin
         # Write out the contents of the page
-        res.write resource.render({}, { rack: { request: req } })
+        res.write resource.render({}, rack: { request: req })
 
         # Valid content is a 200 status
         res.status = 200

@@ -71,7 +71,8 @@ module Middleman
       engine = extension[1..-1].to_sym
 
       # Store last engine for later (could be inside nested renders)
-      self.current_engine, engine_was = engine, current_engine
+      self.current_engine = engine
+      engine_was = current_engine
 
       # By default, no content is captured
       content = ''
@@ -151,6 +152,18 @@ module Middleman
       partial_file || nil
     end
 
+    def current_path
+      @locs[:current_path]
+    end
+
+    # Get the resource object for the current path
+    # @return [Middleman::Sitemap::Resource]
+    def current_resource
+      return nil unless current_path
+      sitemap.find_resource_by_destination_path(current_path)
+    end
+    alias_method :current_page, :current_resource
+
     protected
 
     # Render a path with locs, opts and contents block.
@@ -187,17 +200,5 @@ module Middleman
 
       content
     end
-
-    def current_path
-      @locs[:current_path]
-    end
-
-    # Get the resource object for the current path
-    # @return [Middleman::Sitemap::Resource]
-    def current_resource
-      return nil unless current_path
-      sitemap.find_resource_by_destination_path(current_path)
-    end
-    alias_method :current_page, :current_resource
   end
 end
