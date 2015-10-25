@@ -10,6 +10,8 @@ class Middleman::CoreExtensions::Internationalization < ::Middleman::Extension
   # Exposes `langs` to templates
   expose_to_template :langs
 
+  self.resource_list_manipulator_priority = 70
+
   def initialize(*)
     super
 
