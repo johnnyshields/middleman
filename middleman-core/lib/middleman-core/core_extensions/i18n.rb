@@ -10,6 +10,9 @@ class Middleman::CoreExtensions::Internationalization < ::Middleman::Extension
   # Exposes `langs` to templates
   expose_to_template :langs
 
+  self.resource_list_manipulator_priority = 70
+  attr_reader :maps
+
   def initialize(*)
     super
 
@@ -112,6 +115,31 @@ class Middleman::CoreExtensions::Internationalization < ::Middleman::Extension
         super(partials_path, try_static) ||
           super
       end
+    end
+
+    # Access localized path for `page_id`
+    def locale_path(page_id, locale=I18n.locale)
+      page_id = page_id.to_s
+      maps = extensions[:i18n].maps
+
+      path = maps[page_id].try(:[], locale)
+      raise 'Path not found' unless path
+
+      '/' + path
+    end
+
+    # Path to the same page in another locale
+    def switch_locale_path(locale=other_locale)
+      raise ArgumentError, 'No other locale to switch to' unless locale
+      locale_path(current_page.locals[:page_id], locale)
+    end
+
+    def other_locale
+      other_locales[0]
+    end
+
+    def other_locales
+      extensions[:i18n].langs - [I18n.locale]
     end
   end
 
